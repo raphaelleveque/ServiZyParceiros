@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, Image, Button } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/app/types/navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const onboardingSteps = [
   {
@@ -21,22 +22,19 @@ const onboardingSteps = [
   },
 ];
 
-// Tipando as props de forma correta, incluindo a prop onFinish
 type OnboardingScreenProps = StackScreenProps<AuthStackParamList, 'Onboarding'>;
 
 export default function OnboardingScreen({
   navigation,
-  route, // Acessando os parâmetros de route
 }: OnboardingScreenProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const { onFinish } = route.params; // Acessando a função onFinish dos parâmetros
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < onboardingSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      navigation.navigate('Login');
-      onFinish();
+      await AsyncStorage.setItem('hasSeenOnboarding', 'true');
+      navigation.replace('Login'); // Garante que o usuário não volte para o onboarding
     }
   };
 

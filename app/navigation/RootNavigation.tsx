@@ -28,15 +28,7 @@ export default function RootNavigation({
       screenOptions={{ headerShown: false }}
       initialRouteName={initialRouteName}
     >
-      <Stack.Screen
-        name="Onboarding"
-        component={OnboardingScreen}
-        initialParams={{
-          onFinish: async () => {
-            await AsyncStorage.setItem('hasSeenOnboarding', 'true');
-          },
-        }}
-      />
+      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Main" component={MainNavigation} />
