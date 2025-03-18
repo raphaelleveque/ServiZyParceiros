@@ -1,9 +1,10 @@
 {
   "name": "servizyparceiros",
-  "main": "expo-router/entry",
+  "main": "./app/App.tsx",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "start-clear": "expo start --clear",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
