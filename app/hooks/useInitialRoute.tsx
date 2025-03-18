@@ -2,15 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFirstLaunch } from './useFirstLaunch';
 
 export default function useInitialRoute(isAuthenticated: boolean) {
-  const hasSeenOnboarding = useFirstLaunch();
+  const isFirstLaunch = useFirstLaunch();
 
-  if (hasSeenOnboarding === null) {
+  if (isFirstLaunch === null) {
     return null; // Indica que ainda estamos carregando
   }
 
-  return !hasSeenOnboarding ? 'Onboarding' : isAuthenticated ? 'Main' : 'Login';
+  return isFirstLaunch ? 'Onboarding' : isAuthenticated ? 'Main' : 'Login';
 }
 
 export const resetOnboardingStatus = async () => {
-  await AsyncStorage.removeItem('hasSeenOnboarding');
+  await AsyncStorage.removeItem('hasLaunched');
 };
