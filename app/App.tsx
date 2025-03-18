@@ -2,9 +2,8 @@ import { registerRootComponent } from 'expo';
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import RootNavigation, {
-  resetOnboardingStatus,
-} from './navigation/RootNavigation';
+import RootNavigation from './navigation/RootNavigation';
+import { resetOnboardingStatus } from './hooks/useInitialRoute';
 
 function App() {
   // Simulando um estado de autenticação como verdadeiro
