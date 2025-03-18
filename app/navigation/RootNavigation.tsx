@@ -10,5 +10,11 @@ interface RootNavigationProps {
 export default function RootNavigation({
   isAuthenticated,
 }: RootNavigationProps) {
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log(
+    'Rendering:',
+    isAuthenticated ? 'MainNavigation' : 'AuthNavigation'
+  );
+
   return <>{isAuthenticated ? <MainNavigation /> : <AuthNavigation />}</>;
 }

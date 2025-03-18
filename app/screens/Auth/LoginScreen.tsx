@@ -1,19 +1,24 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, SafeAreaView } from 'react-native';
 
 type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
-  App: undefined;
+  Main: undefined;
 };
 
 type LoginScreenProps = StackScreenProps<AuthStackParamList, 'Login'>;
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   return (
-    <View>
-      <Text>Tela de Login</Text>
-      <Button title="Entrar" onPress={() => navigation.replace('App')} />
-    </View>
+    <SafeAreaView className="flex-1 justify-center items-center bg-white">
+      <Text className="text-xl font-bold">Tela de Login</Text>
+      <Button
+        title="Entrar"
+        onPress={() => {
+          navigation.replace('Main');
+        }}
+      />
+    </SafeAreaView>
   );
 }
