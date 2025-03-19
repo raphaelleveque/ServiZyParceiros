@@ -8,7 +8,7 @@ import { resetOnboardingStatus } from './hooks/useInitialRoute';
 function App() {
   // Simulando um estado de autenticação como verdadeiro
   const isAuthenticated = false; // Vamos fingir que o usuário já está autenticado
-  resetOnboardingStatus(); // MÉTODO PARA DEBUG
+  //resetOnboardingStatus(); // MÉTODO PARA DEBUG
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
