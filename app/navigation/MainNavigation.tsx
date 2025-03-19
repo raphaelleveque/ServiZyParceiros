@@ -9,6 +9,7 @@ import SearchIcon from '@/assets/images/search.svg';
 import OrdersIcon from '@/assets/images/orders.svg';
 import FavoritesIcon from '@/assets/images/favorites.svg';
 import ProfileIcon from '@/assets/images/profile.svg';
+import { colors } from '@/app/constants/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,37 +17,43 @@ export default function MainNavigation() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: 'green', // Cor da aba ativa
-        tabBarInactiveTintColor: 'gray', // Cor da aba inativa
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.secundary,
       }}
     >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ size }) => <HomeIcon width={size} height={size} />,
+          tabBarIcon: ({ size, color }) => (
+            <HomeIcon width={size} height={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
         name="Search"
         component={SearchScreen}
         options={{
-          tabBarIcon: ({ size }) => <SearchIcon width={size} height={size} />,
+          tabBarIcon: ({ size, color }) => (
+            <SearchIcon width={size} height={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
         name="Orders"
         component={OrdersScreen}
         options={{
-          tabBarIcon: ({ size }) => <OrdersIcon width={size} height={size} />,
+          tabBarIcon: ({ size, color }) => (
+            <OrdersIcon width={size} height={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
         name="Favorites"
         component={FavoritesScreen}
         options={{
-          tabBarIcon: ({ size }) => (
-            <FavoritesIcon width={size} height={size} />
+          tabBarIcon: ({ size, color }) => (
+            <FavoritesIcon width={size} height={size} color={color} />
           ),
         }}
       />
@@ -54,7 +61,9 @@ export default function MainNavigation() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ size }) => <ProfileIcon width={size} height={size} />,
+          tabBarIcon: ({ size, color }) => (
+            <ProfileIcon width={size} height={size} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>
