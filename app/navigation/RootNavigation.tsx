@@ -6,7 +6,6 @@ import RegisterScreen from '../screens/Auth/RegisterScreen';
 import { AuthStackParamList } from '../types/navigation';
 import useInitialRoute from '../hooks/useInitialRoute';
 import LoadingScreen from '../components/LoadingScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface RootNavigationProps {
   isAuthenticated: boolean;
