@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
-  Animated,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/app/types/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import LoadingScreen from '@/app/components/LoadingScreen';
 
 const onboardingSteps = [
   {
@@ -40,73 +40,30 @@ export default function OnboardingScreen({
   navigation,
 }: OnboardingScreenProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-  const slideAnim = useRef(new Animated.Value(0)).current;
-  const imageFadeAnim = useRef(new Animated.Value(1)).current;
+  const [isLoading, setIsLoading] = useState(true);
   const insets = useSafeAreaInsets();
   const screenWidth = Dimensions.get('window').width;
 
-  const animateTransition = (nextStep: number) => {
-    // Animação contínua
-    Animated.parallel([
-      // Texto fade out
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      // Texto slide out
-      Animated.timing(slideAnim, {
-        toValue: -15,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      // Imagem fade out
-      Animated.timing(imageFadeAnim, {
-        toValue: 0,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      // Atualizamos o estado após o fade out
-      setCurrentStep(nextStep);
-
-      // Texto slide in
-      Animated.timing(slideAnim, {
-        toValue: 15,
-        duration: 0,
-        useNativeDriver: true,
-      }).start(() => {
-        // Fade in final
-        Animated.parallel([
-          Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(slideAnim, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(imageFadeAnim, {
-            toValue: 1,
-            duration: 400,
-            useNativeDriver: true,
-          }),
-        ]).start();
-      });
-    });
-  };
+  // Simular carregamento das imagens
+  useEffect(() => {
+    // Dar um tempo para o React Native processar as imagens
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
 
   const handleNext = async () => {
     if (currentStep < onboardingSteps.length - 1) {
-      animateTransition(currentStep + 1);
+      setCurrentStep(currentStep + 1);
     } else {
       await AsyncStorage.setItem('hasSeenOnboarding', 'true');
       navigation.replace('Login');
     }
   };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <View className="flex-1 bg-gray-100">
@@ -138,13 +95,7 @@ export default function OnboardingScreen({
           </View>
         </View>
 
-        <Animated.View
-          className="px-6"
-          style={{
-            opacity: fadeAnim,
-            transform: [{ translateX: slideAnim }],
-          }}
-        >
+        <View className="px-6">
           <Text className="text-3xl font-bold text-gray-900 mb-4">
             {onboardingSteps[currentStep].title}
           </Text>
@@ -167,30 +118,29 @@ export default function OnboardingScreen({
               <Ionicons name="arrow-forward" size={18} color="white" />
             </TouchableOpacity>
           </View>
-        </Animated.View>
+        </View>
       </View>
 
       {/* Container da imagem com tamanho controlado */}
       <View className="flex-1 items-center justify-center">
         <View
-          className="overflow-hidden"
+          className="overflow-hidden relative"
           style={{
             width: Math.min(screenWidth, 402) * 1.2,
             height: 538 * 1.2,
           }}
         >
-          <Animated.View
-            className="w-full h-full"
-            style={{
-              opacity: imageFadeAnim,
-            }}
-          >
+          {onboardingSteps.map((step, index) => (
             <Image
-              source={onboardingSteps[currentStep].image}
-              className="w-full h-full"
+              key={index}
+              source={step.image}
+              className="w-full h-full absolute top-0 left-0"
               resizeMode="cover"
+              style={{
+                opacity: index === currentStep ? 1 : 0,
+              }}
             />
-          </Animated.View>
+          ))}
         </View>
       </View>
     </View>
