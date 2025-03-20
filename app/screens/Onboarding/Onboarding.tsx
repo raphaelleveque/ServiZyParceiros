@@ -116,16 +116,10 @@ export default function OnboardingScreen({
 
       {/* Conteúdo do cartão branco */}
       <View
-        className="bg-white rounded-b-3xl"
+        className="bg-white rounded-b-3xl shadow-md shadow-black/10 pb-6 z-10"
         style={{
           paddingTop: insets.top,
-          paddingBottom: 24,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
           elevation: 3,
-          zIndex: 10,
         }}
       >
         {/* Indicadores de progresso */}
@@ -134,7 +128,9 @@ export default function OnboardingScreen({
             {onboardingSteps.map((_, index) => (
               <View
                 key={index}
-                className={`h-1.5 rounded-full mx-1 flex-1 ${index === currentStep ? 'bg-blue-600' : 'bg-gray-200'}`}
+                className={`h-1.5 rounded-full mx-1 flex-1 ${
+                  index === currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                }`}
               />
             ))}
           </View>
@@ -175,22 +171,21 @@ export default function OnboardingScreen({
       {/* Container da imagem com tamanho controlado */}
       <View className="flex-1 items-center justify-center">
         <View
+          className="overflow-hidden"
           style={{
             width: Math.min(screenWidth, 402) * 1.2,
             height: 538 * 1.2,
-            overflow: 'hidden',
           }}
         >
           <Animated.View
+            className="w-full h-full"
             style={{
-              width: '100%',
-              height: '100%',
               opacity: imageFadeAnim,
             }}
           >
             <Image
               source={onboardingSteps[currentStep].image}
-              style={{ width: '100%', height: '100%' }}
+              className="w-full h-full"
               resizeMode="cover"
             />
           </Animated.View>
