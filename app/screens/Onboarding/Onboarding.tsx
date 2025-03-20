@@ -16,18 +16,20 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const onboardingSteps = [
   {
-    title: 'We provide professional service\nat a friendly price',
-    description: 'Find the perfect Service for your home, fast and worry-free',
+    title: 'Conecte-se a novos clientes',
+    description:
+      'Divulgue seus serviços, alcance mais clientes e aumente sua renda com a ServiZy.',
     image: require('@/assets/images/onboarding-screen-1.png'),
   },
   {
-    title: "Let's make awesome changes to\nyour home",
-    description: 'Find the perfect Service for your home, fast and worry-free',
+    title: 'Gerencie seus serviços com facilidade',
+    description:
+      'Agende, converse com clientes e acompanhe pagamentos em um só lugar.',
     image: require('@/assets/images/onboarding-screen-2.png'),
   },
   {
-    title: 'Pagamento Seguro',
-    description: 'Pague com segurança diretamente pelo app.',
+    title: 'Receba pagamentos com segurança',
+    description: 'Pagamento garantido direto pelo app, sem risco de calote.',
     image: require('@/assets/images/onboarding-screen-3.png'),
   },
 ];
@@ -123,7 +125,7 @@ export default function OnboardingScreen({
         }}
       >
         {/* Indicadores de progresso */}
-        <View className="px-6 py-4">
+        <View className="px-6 py-6">
           <View className="flex-row">
             {onboardingSteps.map((_, index) => (
               <View
