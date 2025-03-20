@@ -5,7 +5,8 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 import { AuthStackParamList } from '../types/navigation';
 import useInitialRoute from '../hooks/useInitialRoute';
-import LoadingScreen from '../components/LoadingScreen';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 
 interface RootNavigationProps {
   isAuthenticated: boolean;
@@ -18,8 +19,15 @@ export default function RootNavigation({
 }: RootNavigationProps) {
   const initialRouteName = useInitialRoute(isAuthenticated);
 
+  useEffect(() => {
+    if (initialRouteName !== null) {
+      // Esconde a splash screen apenas quando initialRouteName estiver pronto
+      SplashScreen.hideAsync();
+    }
+  }, [initialRouteName]);
+
   if (initialRouteName === null) {
-    return <LoadingScreen />;
+    return null;
   }
 
   return (

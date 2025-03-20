@@ -4,12 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './navigation/RootNavigation';
 import { resetOnboardingStatus } from './hooks/useInitialRoute';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as SplashScreen from 'expo-splash-screen';
 import '@/global.css';
 
+// Previne que a splash screen seja fechada automaticamente
+SplashScreen.preventAutoHideAsync();
+
 function App() {
-  // Simulando um estado de autenticação como verdadeiro
-  const isAuthenticated = false; // Vamos fingir que o usuário já está autenticado
+  const isAuthenticated = false;
   resetOnboardingStatus(); // MÉTODO PARA DEBUG
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
