@@ -40,39 +40,60 @@ export default function OnboardingScreen({
   const [currentStep, setCurrentStep] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
+  const imageFadeAnim = useRef(new Animated.Value(1)).current;
   const insets = useSafeAreaInsets();
   const screenWidth = Dimensions.get('window').width;
 
   const animateTransition = (nextStep: number) => {
-    // Fade out
+    // Animação contínua
     Animated.parallel([
+      // Texto fade out
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 200,
+        duration: 300,
         useNativeDriver: true,
       }),
+      // Texto slide out
       Animated.timing(slideAnim, {
-        toValue: -50,
-        duration: 200,
+        toValue: -15,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      // Imagem fade out
+      Animated.timing(imageFadeAnim, {
+        toValue: 0,
+        duration: 400,
         useNativeDriver: true,
       }),
     ]).start(() => {
+      // Atualizamos o estado após o fade out
       setCurrentStep(nextStep);
-      slideAnim.setValue(50);
 
-      // Fade in
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.timing(slideAnim, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start();
+      // Texto slide in
+      Animated.timing(slideAnim, {
+        toValue: 15,
+        duration: 0,
+        useNativeDriver: true,
+      }).start(() => {
+        // Fade in final
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(imageFadeAnim, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      });
     });
   };
 
@@ -153,21 +174,27 @@ export default function OnboardingScreen({
 
       {/* Container da imagem com tamanho controlado */}
       <View className="flex-1 items-center justify-center">
-        <Animated.View
+        <View
           style={{
             width: Math.min(screenWidth, 402) * 1.2,
             height: 538 * 1.2,
             overflow: 'hidden',
-            opacity: fadeAnim,
-            transform: [{ translateX: slideAnim }],
           }}
         >
-          <Image
-            source={onboardingSteps[currentStep].image}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="contain"
-          />
-        </Animated.View>
+          <Animated.View
+            style={{
+              width: '100%',
+              height: '100%',
+              opacity: imageFadeAnim,
+            }}
+          >
+            <Image
+              source={onboardingSteps[currentStep].image}
+              style={{ width: '100%', height: '100%' }}
+              resizeMode="cover"
+            />
+          </Animated.View>
+        </View>
       </View>
     </View>
   );
