@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
+  Animated,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/app/types/navigation';
@@ -37,12 +38,47 @@ export default function OnboardingScreen({
   navigation,
 }: OnboardingScreenProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
   const screenWidth = Dimensions.get('window').width;
 
+  const animateTransition = (nextStep: number) => {
+    // Fade out
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: -50,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setCurrentStep(nextStep);
+      slideAnim.setValue(50);
+
+      // Fade in
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    });
+  };
+
   const handleNext = async () => {
     if (currentStep < onboardingSteps.length - 1) {
-      setCurrentStep(currentStep + 1);
+      animateTransition(currentStep + 1);
     } else {
       await AsyncStorage.setItem('hasSeenOnboarding', 'true');
       navigation.replace('Login');
@@ -83,7 +119,13 @@ export default function OnboardingScreen({
           </View>
         </View>
 
-        <View className="px-6">
+        <Animated.View
+          className="px-6"
+          style={{
+            opacity: fadeAnim,
+            transform: [{ translateX: slideAnim }],
+          }}
+        >
           <Text className="text-3xl font-bold text-gray-900 mb-4">
             {onboardingSteps[currentStep].title}
           </Text>
@@ -106,16 +148,18 @@ export default function OnboardingScreen({
               <Ionicons name="arrow-forward" size={18} color="white" />
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
       </View>
 
       {/* Container da imagem com tamanho controlado */}
       <View className="flex-1 items-center justify-center">
-        <View
+        <Animated.View
           style={{
-            width: Math.min(screenWidth, 402) * 1.2, // 120% do tamanho original
-            height: 538 * 1.2, // 120% do tamanho original
+            width: Math.min(screenWidth, 402) * 1.2,
+            height: 538 * 1.2,
             overflow: 'hidden',
+            opacity: fadeAnim,
+            transform: [{ translateX: slideAnim }],
           }}
         >
           <Image
@@ -123,7 +167,7 @@ export default function OnboardingScreen({
             style={{ width: '100%', height: '100%' }}
             resizeMode="contain"
           />
-        </View>
+        </Animated.View>
       </View>
     </View>
   );
