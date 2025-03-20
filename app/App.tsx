@@ -1,9 +1,9 @@
 import { registerRootComponent } from 'expo';
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './navigation/RootNavigation';
 import { resetOnboardingStatus } from './hooks/useInitialRoute';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '@/global.css';
 
 function App() {
@@ -11,11 +11,11 @@ function App() {
   const isAuthenticated = false; // Vamos fingir que o usuário já está autenticado
   resetOnboardingStatus(); // MÉTODO PARA DEBUG
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaProvider>
       <NavigationContainer>
         <RootNavigation isAuthenticated={isAuthenticated} />
       </NavigationContainer>
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
