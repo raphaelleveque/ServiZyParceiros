@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+  Dimensions,
+} from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/app/types/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,8 +20,8 @@ const onboardingSteps = [
     image: require('@/assets/images/onboarding-screen-1.png'),
   },
   {
-    title: 'Serviços de Qualidade',
-    description: 'Conectamos você com os melhores profissionais do mercado.',
+    title: "Let's make awesome changes to\nyour home",
+    description: 'Find the perfect Service for your home, fast and worry-free',
     image: require('@/assets/images/onboarding-screen-2.png'),
   },
   {
@@ -31,6 +38,7 @@ export default function OnboardingScreen({
 }: OnboardingScreenProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const insets = useSafeAreaInsets();
+  const screenWidth = Dimensions.get('window').width;
 
   const handleNext = async () => {
     if (currentStep < onboardingSteps.length - 1) {
@@ -42,16 +50,7 @@ export default function OnboardingScreen({
   };
 
   return (
-    <>
-      {/* Imagem de fundo em tela cheia */}
-      <View className="absolute top-0 left-0 right-0 bottom-0">
-        <Image
-          source={onboardingSteps[currentStep].image}
-          style={{ width: '100%', height: '100%' }}
-          resizeMode="cover"
-        />
-      </View>
-
+    <View className="flex-1 bg-gray-100">
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
@@ -109,6 +108,23 @@ export default function OnboardingScreen({
           </View>
         </View>
       </View>
-    </>
+
+      {/* Container da imagem com tamanho controlado */}
+      <View className="flex-1 items-center justify-center">
+        <View
+          style={{
+            width: Math.min(screenWidth, 402), // Limita a largura ao menor valor entre a largura da tela e 402
+            height: 538, // Altura fixa conforme especificação
+            overflow: 'hidden',
+          }}
+        >
+          <Image
+            source={onboardingSteps[currentStep].image}
+            style={{ width: '100%', height: '100%' }}
+            resizeMode="contain" // Usando 'contain' para mostrar a imagem inteira
+          />
+        </View>
+      </View>
+    </View>
   );
 }
