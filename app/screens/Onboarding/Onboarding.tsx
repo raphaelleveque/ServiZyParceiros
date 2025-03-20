@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
+  Animated,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/app/types/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import LoadingScreen from '@/app/components/LoadingScreen';
 
 const onboardingSteps = [
   {
@@ -40,30 +40,73 @@ export default function OnboardingScreen({
   navigation,
 }: OnboardingScreenProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
+  const imageFadeAnim = useRef(new Animated.Value(1)).current;
   const insets = useSafeAreaInsets();
   const screenWidth = Dimensions.get('window').width;
 
-  // Simular carregamento das imagens
-  useEffect(() => {
-    // Dar um tempo para o React Native processar as imagens
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+  const animateTransition = (nextStep: number) => {
+    // Animação contínua
+    Animated.parallel([
+      // Texto fade out
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      // Texto slide out
+      Animated.timing(slideAnim, {
+        toValue: -15,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      // Imagem fade out
+      Animated.timing(imageFadeAnim, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // Atualizamos o estado após o fade out
+      setCurrentStep(nextStep);
+
+      // Texto slide in
+      Animated.timing(slideAnim, {
+        toValue: 15,
+        duration: 0,
+        useNativeDriver: true,
+      }).start(() => {
+        // Fade in final
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(imageFadeAnim, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      });
+    });
+  };
 
   const handleNext = async () => {
     if (currentStep < onboardingSteps.length - 1) {
-      setCurrentStep(currentStep + 1);
+      animateTransition(currentStep + 1);
     } else {
       await AsyncStorage.setItem('hasSeenOnboarding', 'true');
       navigation.replace('Login');
     }
   };
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
 
   return (
     <View className="flex-1 bg-gray-100">
@@ -95,7 +138,13 @@ export default function OnboardingScreen({
           </View>
         </View>
 
-        <View className="px-6">
+        <Animated.View
+          className="px-6"
+          style={{
+            opacity: fadeAnim,
+            transform: [{ translateX: slideAnim }],
+          }}
+        >
           <Text className="text-3xl font-bold text-gray-900 mb-4">
             {onboardingSteps[currentStep].title}
           </Text>
@@ -118,7 +167,7 @@ export default function OnboardingScreen({
               <Ionicons name="arrow-forward" size={18} color="white" />
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
       </View>
 
       {/* Container da imagem com tamanho controlado */}
@@ -131,15 +180,19 @@ export default function OnboardingScreen({
           }}
         >
           {onboardingSteps.map((step, index) => (
-            <Image
+            <Animated.View
               key={index}
-              source={step.image}
               className="w-full h-full absolute top-0 left-0"
-              resizeMode="cover"
               style={{
-                opacity: index === currentStep ? 1 : 0,
+                opacity: index === currentStep ? imageFadeAnim : 0,
               }}
-            />
+            >
+              <Image
+                source={step.image}
+                className="w-full h-full"
+                resizeMode="cover"
+              />
+            </Animated.View>
           ))}
         </View>
       </View>
