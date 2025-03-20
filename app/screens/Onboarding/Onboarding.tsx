@@ -11,26 +11,26 @@ import {
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/app/types/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ArrowRightIcon from '@/assets/images/arrow-right.svg';
 
 const onboardingSteps = [
   {
     title: 'Conecte-se a novos clientes',
     description:
       'Divulgue seus serviços, alcance mais clientes e aumente sua renda com a ServiZy.',
-    image: require('@/assets/images/onboarding-screen-1.png'),
+    image: require('@/assets/images/beauty.jpg'),
   },
   {
     title: 'Gerencie seus serviços com facilidade',
     description:
       'Agende, converse com clientes e acompanhe pagamentos em um só lugar.',
-    image: require('@/assets/images/onboarding-screen-2.png'),
+    image: require('@/assets/images/cleaner.png'),
   },
   {
     title: 'Receba pagamentos com segurança',
     description: 'Pagamento garantido direto pelo app, sem risco de calote.',
-    image: require('@/assets/images/onboarding-screen-3.png'),
+    image: require('@/assets/images/painter2.png'),
   },
 ];
 
@@ -131,7 +131,7 @@ export default function OnboardingScreen({
               <View
                 key={index}
                 className={`h-1.5 rounded-full mx-1 flex-1 ${
-                  index === currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                  index === currentStep ? 'bg-primary' : 'bg-gray-200'
                 }`}
               />
             ))}
@@ -158,13 +158,13 @@ export default function OnboardingScreen({
             </TouchableOpacity>
 
             <TouchableOpacity
-              className="bg-blue-600 px-8 py-3 rounded-lg flex-row items-center justify-center"
+              className="bg-primary px-8 py-3 rounded-lg flex-row items-center justify-center"
               onPress={handleNext}
             >
               <Text className="text-white font-medium text-lg mr-1">
                 {currentStep === onboardingSteps.length - 1 ? 'Start' : 'Next'}
               </Text>
-              <Ionicons name="arrow-forward" size={18} color="white" />
+              <ArrowRightIcon width={18} height={18} color="white" />
             </TouchableOpacity>
           </View>
         </Animated.View>
