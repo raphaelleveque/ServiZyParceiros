@@ -113,15 +113,15 @@ export default function OnboardingScreen({
       <View className="flex-1 items-center justify-center">
         <View
           style={{
-            width: Math.min(screenWidth, 402), // Limita a largura ao menor valor entre a largura da tela e 402
-            height: 538, // Altura fixa conforme especificação
+            width: Math.min(screenWidth, 402) * 1.2, // 120% do tamanho original
+            height: 538 * 1.2, // 120% do tamanho original
             overflow: 'hidden',
           }}
         >
           <Image
             source={onboardingSteps[currentStep].image}
             style={{ width: '100%', height: '100%' }}
-            resizeMode="contain" // Usando 'contain' para mostrar a imagem inteira
+            resizeMode="contain"
           />
         </View>
       </View>
