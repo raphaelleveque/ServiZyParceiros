@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           <Text className="text-3xl font-urbanist font-bold">
             Let's get you Login!
           </Text>
-          <Text className="text-secondary mt-4 font-servy">
+          <Text className="text-secondary mt-4 font-syne">
             Enter your information below
           </Text>
         </View>
@@ -43,13 +43,13 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           {/* Botão Google */}
           <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-white border border-gray-200 rounded-xl py-4">
             <GoogleIcon width={20} height={20} />
-            <Text className="ml-2 font-urbanist">Google</Text>
+            <Text className="ml-2 font-syne">Google</Text>
           </TouchableOpacity>
 
           {/* Botão Facebook */}
           <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-white border border-gray-200 rounded-xl py-4">
             <FacebookIcon width={24} height={24} />
-            <Text className="ml-2 font-urbanist">Facebook</Text>
+            <Text className="ml-2 font-syne">Facebook</Text>
           </TouchableOpacity>
         </View>
       </View>
