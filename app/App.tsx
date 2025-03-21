@@ -1,20 +1,25 @@
 import { registerRootComponent } from 'expo';
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './navigation/RootNavigation';
 import { resetOnboardingStatus } from './hooks/useInitialRoute';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as SplashScreen from 'expo-splash-screen';
+import '@/global.css';
+
+// Previne que a splash screen seja fechada automaticamente
+SplashScreen.preventAutoHideAsync();
 
 function App() {
-  // Simulando um estado de autenticação como verdadeiro
-  const isAuthenticated = false; // Vamos fingir que o usuário já está autenticado
-  //resetOnboardingStatus(); // MÉTODO PARA DEBUG
+  const isAuthenticated = false;
+  resetOnboardingStatus(); // MÉTODO PARA DEBUG
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaProvider>
       <NavigationContainer>
         <RootNavigation isAuthenticated={isAuthenticated} />
       </NavigationContainer>
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
