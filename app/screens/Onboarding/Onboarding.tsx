@@ -131,7 +131,7 @@ export default function OnboardingScreen({
               <View
                 key={index}
                 className={`h-1.5 rounded-full mx-1 flex-1 ${
-                  index === currentStep ? 'bg-primary' : 'bg-subtle'
+                  index === currentStep ? 'bg-primary' : 'bg-subtle-border'
                 }`}
               />
             ))}

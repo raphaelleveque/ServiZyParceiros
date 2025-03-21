@@ -22,6 +22,7 @@ module.exports = {
         white: '#FFFFFF',
         input: '#F5F5F5',
         subtle: '#9C94971A',
+        'subtle-border': '#E5E7EB',
 
         // Paleta completa
         dark: '#1f1f20',

@@ -16,6 +16,7 @@ export const colors = {
     primary: '#FFFFFF', // Background principal (branco)
     input: '#F5F5F5', // Campos de entrada, searchbars
     secondary: '#9C94971A', // Elementos secundários, botões alternativos
+    subtleBorder: '#E5E7EB', // Bordas e divisores sutis
   },
 
   // Paleta completa (para referência)
