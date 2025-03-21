@@ -52,6 +52,13 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
             <Text className="ml-2 font-syne">Facebook</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Divisor "Or login with" */}
+        <View className="flex-row items-center mt-8">
+          <View className="flex-1 h-[1px] bg-gray-200" />
+          <Text className="mx-4 text-secondary font-syne">Or login with</Text>
+          <View className="flex-1 h-[1px] bg-gray-200" />
+        </View>
       </View>
     </SafeAreaView>
   );
