@@ -85,24 +85,26 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
           {/* Input de Senha */}
           <View>
-            <View className="border border-primary rounded-xl px-4">
-              <Text className="text-secondary text-xs font-syne mt-2">
-                Password
-              </Text>
-              <View className="flex-row items-center">
+            <View className="border border-primary rounded-xl px-4 flex-row">
+              <View className="flex-1">
+                <Text className="text-secondary text-xs font-syne mt-2">
+                  Password
+                </Text>
                 <TextInput
                   placeholder="Enter your password"
                   placeholderTextColor="#697586"
-                  className="font-syne text-body flex-1 py-2"
+                  className="font-syne text-body py-2"
                   secureTextEntry={!showPassword}
                 />
+              </View>
+              <View className="justify-center">
                 <TouchableOpacity
                   onPress={() => setShowPassword(!showPassword)}
                   className="p-2"
                 >
                   <Feather
                     name={showPassword ? 'eye' : 'eye-off'}
-                    size={20}
+                    size={22}
                     color="#697586"
                   />
                 </TouchableOpacity>
@@ -116,7 +118,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           </TouchableOpacity>
 
           {/* Botão Login */}
-          <TouchableOpacity className="bg-primary rounded-xl py-4 mt-6">
+          <TouchableOpacity
+            className="bg-primary rounded-xl py-4 mt-6"
+            onPress={() => navigation.navigate('Main')}
+          >
             <Text className="text-white font-syne text-center">Login</Text>
           </TouchableOpacity>
 
