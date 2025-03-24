@@ -55,18 +55,18 @@ export default function ForgotPasswordScreen({
         </View>
 
         {/* Área de imagem */}
-        <View className="mt-10 self-center">
+        <View className="mt-8 self-center">
           <ForgotPasswordImage />
         </View>
 
         {/* Área de seleção de contato */}
-        <View className="mt-10">
+        <View className="mt-8">
           {/* Botão de telefone */}
           <TouchableOpacity>
-            <View className="flex-row items-center border border-subtle-border rounded-3xl p-4 my-2">
+            <View className="flex-row items-center border border-subtle-border rounded-3xl p-3 my-2">
               {/* Ícone circular */}
               <View className="bg-primary rounded-full w-14 h-14 items-center justify-center mr-4">
-                <MessageIcon width={24} height={24} color="white" />
+                <MessageIcon width={20} height={20} color="white" />
               </View>
 
               {/* Texto */}
@@ -83,10 +83,10 @@ export default function ForgotPasswordScreen({
 
           {/* Botão de email */}
           <TouchableOpacity>
-            <View className="flex-row items-center border border-subtle-border rounded-3xl p-4 my-2">
+            <View className="flex-row items-center border border-subtle-border rounded-3xl p-3 my-2">
               {/* Ícone circular */}
               <View className="bg-primary rounded-full w-14 h-14 items-center justify-center mr-4">
-                <EmailIcon width={24} height={24} color="white" />
+                <EmailIcon width={20} height={20} color="white" />
               </View>
 
               {/* Texto */}
@@ -104,10 +104,10 @@ export default function ForgotPasswordScreen({
 
         {/* Botão de enviar */}
         <TouchableOpacity
-          className="bg-primary rounded-xl py-4 mt-6"
+          className="bg-primary rounded-xl py-5 mt-4"
           onPress={() => navigation.navigate('Main')}
         >
-          <Text className="text-white font-syne text-center">Login</Text>
+          <Text className="text-white font-syne text-center">Continue</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
