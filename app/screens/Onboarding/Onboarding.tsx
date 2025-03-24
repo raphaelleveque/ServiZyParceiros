@@ -109,7 +109,7 @@ export default function OnboardingScreen({
   };
 
   return (
-    <View className="flex-1 bg-gray-100">
+    <View className="flex-1">
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
@@ -131,7 +131,7 @@ export default function OnboardingScreen({
               <View
                 key={index}
                 className={`h-1.5 rounded-full mx-1 flex-1 ${
-                  index === currentStep ? 'bg-primary' : 'bg-gray-200'
+                  index === currentStep ? 'bg-primary' : 'bg-subtle-border'
                 }`}
               />
             ))}
@@ -145,23 +145,25 @@ export default function OnboardingScreen({
             transform: [{ translateX: slideAnim }],
           }}
         >
-          <Text className="text-3xl font-bold text-gray-900 mb-4">
+          <Text className="text-3xl font-urbanist font-bold text-heading mb-4">
             {onboardingSteps[currentStep].title}
           </Text>
-          <Text className="text-gray-600 text-lg mb-8">
+          <Text className="text-body font-urbanist text-lg mb-8">
             {onboardingSteps[currentStep].description}
           </Text>
 
           <View className="flex-row justify-between items-center mb-2">
             <TouchableOpacity onPress={() => navigation.replace('Login')}>
-              <Text className="text-gray-500 font-medium text-lg">Skip</Text>
+              <Text className="text-secondary font-urbanist font-medium text-lg">
+                Skip
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               className="bg-primary px-8 py-3 rounded-lg flex-row items-center justify-center"
               onPress={handleNext}
             >
-              <Text className="text-white font-medium text-lg mr-1">
+              <Text className="text-white font-urbanist font-medium text-lg mr-1">
                 {currentStep === onboardingSteps.length - 1 ? 'Start' : 'Next'}
               </Text>
               <ArrowRightIcon width={18} height={18} color="white" />

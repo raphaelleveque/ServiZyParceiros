@@ -4,11 +4,31 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        syne: 'Syne',
+        urbanist: 'Urbanist',
+      },
       colors: {
-        primary: '#567EBB',
-        secondary: '#9C9497',
-        'fill-button-unselected': '#FEFEFE',
-        'search-bar': '#F5F5F5',
+        // Cor principal
+        primary: '#567ebb',
+
+        // Cores de texto
+        heading: '#212121',
+        body: '#424242',
+        secondary: '#697586',
+        tertiary: '#9C9497',
+
+        // Backgrounds
+        white: '#FFFFFF',
+        input: '#F5F5F5',
+        subtle: '#9C94971A',
+        'subtle-border': '#E5E7EB',
+
+        // Paleta completa
+        dark: '#1f1f20',
+        highlight: '#2b4c7e',
+        light: '#606d80',
+        contrast: '#dce0e6',
       },
     },
   },
