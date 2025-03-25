@@ -15,6 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { colors } from '@/app/constants/colors';
 import TwoFactorAuthImage from '@/assets/images/twofactorauth.svg';
 import { useRoute } from '@react-navigation/native';
+import PopUpSuccess from '@/app/components/PopUpSuccess';
 
 type TwoFactorAuthScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -26,6 +27,7 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
   const { source } = route.params as { source: string };
   const [digits, setDigits] = useState(['', '', '', '']);
   const [countdown, setCountdown] = useState(15);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -150,7 +152,7 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
             onPress={() => {
               if (digits.every((digit) => digit.length === 1)) {
                 if (source === 'ConfirmIdentity') {
-                  navigation.navigate('Main');
+                  setIsPopupVisible(true);
                 } else {
                   navigation.navigate('EnterNewPassword');
                 }
@@ -161,6 +163,16 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
           >
             <Text className="text-white font-syne text-center">Verify</Text>
           </TouchableOpacity>
+
+          <PopUpSuccess
+            visible={isPopupVisible}
+            onClose={() => {
+              setIsPopupVisible(false);
+              navigation.navigate('Main');
+            }}
+            title="Identity Confirmed"
+            description="Your identity has been confirmed successfully"
+          />
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>

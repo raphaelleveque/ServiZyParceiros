@@ -16,6 +16,7 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 import { AuthStackParamList } from '@/app/types/navigation';
 import { StackScreenProps } from '@react-navigation/stack';
 import NewPasswordImage from '@/assets/images/enter-new-password.svg';
+import PopUpSuccess from '@/app/components/PopUpSuccess';
 
 type EnterNewPasswordScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -33,6 +34,7 @@ const EnterNewPasswordScreen = ({
   const scrollViewRef = useRef<ScrollView>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const confirmPasswordInputRef = useRef<TextInput>(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
@@ -49,7 +51,7 @@ const EnterNewPasswordScreen = ({
       setError('Passwords do not match');
       alert('Passwords do not match');
     } else {
-      navigation.navigate('Main');
+      setIsPopupVisible(true);
     }
   };
 
@@ -184,6 +186,15 @@ const EnterNewPasswordScreen = ({
                 <Text className="text-white font-syne text-center">Save</Text>
               </TouchableOpacity>
             </View>
+            <PopUpSuccess
+              visible={isPopupVisible}
+              onClose={() => {
+                setIsPopupVisible(false);
+                navigation.navigate('Main');
+              }}
+              title="Password Updated"
+              description="Your password has been updated successfully"
+            />
           </ScrollView>
         </SafeAreaView>
       </TouchableWithoutFeedback>
