@@ -47,9 +47,9 @@ const EnterNewPasswordScreen = ({
   const handleSubmit = () => {
     if (password !== confirmPassword) {
       setError('Passwords do not match');
+      alert('Passwords do not match');
     } else {
-      // Aqui você pode adicionar a lógica para enviar o novo password
-      console.log('New password submitted:', password);
+      navigation.navigate('Main');
     }
   };
 
