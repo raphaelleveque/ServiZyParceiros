@@ -144,7 +144,13 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
           {/* Botão de enviar */}
           <TouchableOpacity
             className="bg-primary rounded-xl py-5 mt-8"
-            onPress={() => navigation.navigate('Main')}
+            onPress={() => {
+              if (digits.every((digit) => digit.length === 1)) {
+                navigation.navigate('EnterNewPassword');
+              } else {
+                alert('Please enter all 4 digits.');
+              }
+            }}
           >
             <Text className="text-white font-syne text-center">Verify</Text>
           </TouchableOpacity>

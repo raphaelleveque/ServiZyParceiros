@@ -4,5 +4,6 @@ export type AuthStackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
   TwoFactorAuth: undefined;
+  EnterNewPassword: undefined;
   Main: undefined;
 };
