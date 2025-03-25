@@ -24,14 +24,14 @@ import { Feather } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { colors } from '@/app/constants/colors';
 
-type ForgotPasswordScreenProps = StackScreenProps<
+type ConfirmIdentityScreenProps = StackScreenProps<
   AuthStackParamList,
-  'ForgotPassword'
+  'ConfirmIdentity'
 >;
 
-export default function ForgotPasswordScreen({
+export default function ConfirmIdentityScreen({
   navigation,
-}: ForgotPasswordScreenProps) {
+}: ConfirmIdentityScreenProps) {
   const [selectedMethod, setSelectedMethod] = useState<'sms' | 'email' | null>(
     null
   );
@@ -52,10 +52,10 @@ export default function ForgotPasswordScreen({
         {/* Área do Título */}
         <View className="mt-6 self-start">
           <Text className="text-3xl font-urbanist font-bold">
-            Forgot your password!
+            Confirm your identity
           </Text>
           <Text className="text-secondary mt-4 font-syne">
-            Select which contact details should we use to reset your password
+            Select which contact details should we use to confirm your identity
           </Text>
         </View>
 
@@ -127,7 +127,7 @@ export default function ForgotPasswordScreen({
         <TouchableOpacity
           className="bg-primary rounded-xl py-5 mt-4"
           onPress={() =>
-            navigation.navigate('TwoFactorAuth', { source: 'ForgotPassword' })
+            navigation.navigate('TwoFactorAuth', { source: 'ConfirmIdentity' })
           }
         >
           <Text className="text-white font-syne text-center">Continue</Text>

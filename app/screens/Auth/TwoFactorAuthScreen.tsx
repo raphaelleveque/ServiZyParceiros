@@ -14,6 +14,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
 import { colors } from '@/app/constants/colors';
 import TwoFactorAuthImage from '@/assets/images/twofactorauth.svg';
+import { useRoute } from '@react-navigation/native';
 
 type TwoFactorAuthScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -21,6 +22,8 @@ type TwoFactorAuthScreenProps = StackScreenProps<
 >;
 
 const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
+  const route = useRoute();
+  const { source } = route.params as { source: string };
   const [digits, setDigits] = useState(['', '', '', '']);
   const [countdown, setCountdown] = useState(15);
 
@@ -146,7 +149,11 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
             className="bg-primary rounded-xl py-5 mt-8"
             onPress={() => {
               if (digits.every((digit) => digit.length === 1)) {
-                navigation.navigate('EnterNewPassword');
+                if (source === 'ConfirmIdentity') {
+                  navigation.navigate('Main');
+                } else {
+                  navigation.navigate('EnterNewPassword');
+                }
               } else {
                 alert('Please enter all 4 digits.');
               }

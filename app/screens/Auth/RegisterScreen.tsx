@@ -228,7 +228,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
                     if (password !== confirmPassword) {
                       alert('Passwords do not match');
                     } else {
-                      navigation.navigate('Main');
+                      navigation.navigate('ConfirmIdentity');
                     }
                   }}
                 >
