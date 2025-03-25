@@ -8,7 +8,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { AuthStackParamList } from '@/app/types/navigation';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
@@ -22,6 +22,15 @@ type TwoFactorAuthScreenProps = StackScreenProps<
 
 const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
   const [digits, setDigits] = useState(['', '', '', '']);
+  const [countdown, setCountdown] = useState(15);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   const inputRefs = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
@@ -42,7 +51,10 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
     }
   };
 
-  const handleKeyPress = (event: any, index: number) => {
+  const handleKeyPress = (
+    event: { nativeEvent: { key: string } },
+    index: number
+  ) => {
     // Check if the key pressed is backspace and the current input is empty
     if (event.nativeEvent.key === 'Backspace' && digits[index] === '') {
       // Move focus to the previous input
@@ -111,8 +123,16 @@ const TwoFactorAuthScreen = ({ navigation }: TwoFactorAuthScreenProps) => {
           {/* Área de texto */}
           <View className="mt-2">
             <Text className="text-secondary font-syne text-right">
-              Resend code in{' '}
-              <Text className="text-primary font-syne">00:59</Text>
+              {countdown > 0 ? (
+                <>
+                  Resend code in{' '}
+                  <Text className="text-primary font-syne">
+                    {`00:${countdown < 10 ? '0' + countdown : countdown}`}
+                  </Text>
+                </>
+              ) : (
+                <Text className="text-primary font-syne">Resend code</Text>
+              )}
             </Text>
           </View>
 
