@@ -126,7 +126,7 @@ export default function ForgotPasswordScreen({
         {/* Botão de enviar */}
         <TouchableOpacity
           className="bg-primary rounded-xl py-5 mt-4"
-          onPress={() => navigation.navigate('Main')}
+          onPress={() => navigation.navigate('TwoFactorAuth')}
         >
           <Text className="text-white font-syne text-center">Continue</Text>
         </TouchableOpacity>
