@@ -14,7 +14,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 
 type RegisterScreenProps = StackScreenProps<AuthStackParamList, 'Register'>;
@@ -22,12 +22,31 @@ type RegisterScreenProps = StackScreenProps<AuthStackParamList, 'Register'>;
 export default function RegisterScreen({ navigation }: RegisterScreenProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [telefone, setTelefone] = useState('');
+  const scrollViewRef = useRef<ScrollView>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+  const confirmPasswordInputRef = useRef<TextInput>(null);
+
+  const scrollToInput = (inputRef: React.RefObject<TextInput>) => {
+    if (inputRef.current && scrollViewRef.current) {
+      inputRef.current.measureLayout(
+        // @ts-ignore - Isso é necessário porque o tipo não está definido corretamente
+        scrollViewRef.current,
+        (x, y) => {
+          scrollViewRef.current?.scrollTo({ y: y - 100, animated: true });
+        },
+        () => {}
+      );
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-white"
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      className="flex-1"
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView className="flex-1 bg-white">
@@ -37,7 +56,11 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
             translucent
           />
           {/* Container principal */}
-          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          <ScrollView
+            ref={scrollViewRef}
+            className="flex-1"
+            showsVerticalScrollIndicator={false}
+          >
             <View className="flex-1 px-6">
               {/* Área do Logo */}
               <View className="mt-10">
@@ -142,6 +165,10 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
                         placeholderTextColor="#697586"
                         className="font-syne text-body py-2"
                         secureTextEntry={!showPassword}
+                        value={password}
+                        onChangeText={setPassword}
+                        ref={passwordInputRef}
+                        onFocus={() => scrollToInput(passwordInputRef)}
                       />
                     </View>
                     <View className="justify-center">
@@ -171,6 +198,10 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
                         placeholderTextColor="#697586"
                         className="font-syne text-body py-2"
                         secureTextEntry={!showConfirmPassword}
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                        ref={confirmPasswordInputRef}
+                        onFocus={() => scrollToInput(confirmPasswordInputRef)}
                       />
                     </View>
                     <View className="justify-center">
@@ -190,10 +221,16 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
                   </View>
                 </View>
 
-                {/* Botão Login */}
+                {/* Botão Register */}
                 <TouchableOpacity
                   className="bg-primary rounded-xl py-4 mt-6"
-                  onPress={() => navigation.navigate('Main')}
+                  onPress={() => {
+                    if (password !== confirmPassword) {
+                      alert('Passwords do not match');
+                    } else {
+                      navigation.navigate('ConfirmIdentity');
+                    }
+                  }}
                 >
                   <Text className="text-white font-syne text-center">
                     Register

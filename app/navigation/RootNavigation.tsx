@@ -9,6 +9,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import ForgotPasswordScreen from '../screens/Auth/ForgotPasswordScreen';
 import TwoFactorAuthScreen from '../screens/Auth/TwoFactorAuthScreen';
+import EnterNewPasswordScreen from '../screens/Auth/EnterNewPasswordScreen';
+import ConfirmIdentityScreen from '../screens/Auth/ConfirmIdentityScreen';
 interface RootNavigationProps {
   isAuthenticated: boolean;
 }
@@ -39,8 +41,10 @@ export default function RootNavigation({
       <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="ConfirmIdentity" component={ConfirmIdentityScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="TwoFactorAuth" component={TwoFactorAuthScreen} />
+      <Stack.Screen name="EnterNewPassword" component={EnterNewPasswordScreen} />
       <Stack.Screen name="Main" component={MainNavigation} />
     </Stack.Navigator>
   );
